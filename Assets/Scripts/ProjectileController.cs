@@ -8,5 +8,8 @@ public class ProjectileController : MonoBehaviour
         if(other.gameObject.tag == "isWall"){
             Destroy(gameObject);
         }
-    }
+        if(other.gameObject.tag == "Enemy"){
+            Destroy(gameObject);
+        }
+    } 
 }

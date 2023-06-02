@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject projPrefab;
     public Transform shootingPoint;
-    public float projSpeed = 20f;
+    public float projSpeed = 2f;
 
     public float shootCooldown = .2f;
     public float shootCounter;
@@ -18,10 +18,14 @@ public class PlayerController : MonoBehaviour
 
     public float dashCounter;
 
+    public int lives = 3;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
+    
 
     void Update()
     {
@@ -72,10 +76,21 @@ public class PlayerController : MonoBehaviour
     }
 
     void Dash(){
-        if(dashCounter > 0.2)
-        movSpeed = 3000f;
-        if(dashCounter < 0.2)
-        movSpeed = 500f;
+        if(dashCounter > 0.4){
+            movSpeed = 1500f;
+        }
+        if(dashCounter < 0.4){
+            movSpeed = 500f;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "Enemy"){
+            lives = lives-1;
+            if(lives <= 0){
+                Destroy(gameObject);
+            }
+        }
     }
 }
 
