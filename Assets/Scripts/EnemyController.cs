@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    public float enemySpeed = 4f;
+    public float enemySpeed = 2f;
     GameObject player;
     bool isAlive = true;
     SpriteRenderer enemy_SpriteRenderer;
@@ -28,8 +28,8 @@ public class EnemyController : MonoBehaviour
         if (player != null && isAlive){
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemySpeed*Time.deltaTime);
         }
-        if(enemySpeed < 30f){
-            enemySpeed += 0.1f;
+        if(enemySpeed < 20f){
+            enemySpeed += 0.05f;
         }
         
     }
