@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     public float shootCooldown = .2f;
     public float shootCounter;
 
+    public float dashCooldown = 1.0f;
+
+    public float dashCounter;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,10 +48,35 @@ public class PlayerController : MonoBehaviour
             shootCounter -= Time.deltaTime;
         }
         
+        // DASH //
+        if(Input.GetButtonDown("Fire2") && dashCounter <= 0){
+            
+            dashCounter = dashCooldown;
+            Dash();
+        }
+
+        if(movSpeed > 500f){
+            Dash();
+        }
+        if(dashCounter>0){
+            dashCounter -=Time.deltaTime;
+        }
+
     }
+
+
 
     void Atirar(){
         GameObject projectile = Instantiate(projPrefab, shootingPoint.position, shootingPoint.rotation);
         projectile.GetComponent<Rigidbody2D>().AddForce(shootingPoint.up * projSpeed, ForceMode2D.Impulse);
     }
+
+    void Dash(){
+        if(dashCounter > 0.2)
+        movSpeed = 3000f;
+        if(dashCounter < 0.2)
+        movSpeed = 500f;
+    }
 }
+
+    
