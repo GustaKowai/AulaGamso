@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float movSpeed = 500f;
+    public float movSpeed = 300f;
 
     public GameObject projPrefab;
     public Transform shootingPoint;
@@ -19,10 +19,18 @@ public class PlayerController : MonoBehaviour
     public float dashCounter;
 
     public int lives = 3;
+    SpriteRenderer player_SpriteRenderer;
+    public Color alive = new Color(0f,1f,0f);
+    public Color scratch = new Color (0.1f,0.9f,0.1f);
+    public Color wound = new Color(0.3f, 0.7f, 0.3f);
+    public Color fatal = new Color(0.5f,0.5f,0.5f);
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player_SpriteRenderer = GetComponent<SpriteRenderer>();
+        player_SpriteRenderer.color = alive;
+
     }
 
     
@@ -59,7 +67,7 @@ public class PlayerController : MonoBehaviour
             Dash();
         }
 
-        if(movSpeed > 500f){
+        if(movSpeed > 300f){
             Dash();
         }
         if(dashCounter>0){
@@ -80,15 +88,23 @@ public class PlayerController : MonoBehaviour
             movSpeed = 1500f;
         }
         if(dashCounter < 0.4){
-            movSpeed = 500f;
+            movSpeed = 300f;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Enemy"){
             lives = lives-1;
+            if(lives == 2) {
+                player_SpriteRenderer.color = scratch;
+           }
+           if(lives == 1){
+                player_SpriteRenderer.color = wound;
+           }
             if(lives <= 0){
-                Destroy(gameObject);
+                player_SpriteRenderer.color = fatal;
+                movSpeed = 0f;
+                Destroy(gameObject,1f);
             }
         }
     }
